@@ -115,15 +115,19 @@ const addToMyPokemons = async (req, res) =>{
     const { id_pokemons, id_user } = req.body;
 
     try {
-      const pokemon = await PokemonsModel.addToMyPokemon(id_pokemons, id_user);
-      res.json({
-        message: 'Add To My Pokemons Success',
-        data: pokemon
-      });
-    } catch(error) {
-      console.error('Error creating Pokemon', error);
-      res.status(500).json({ error: 'Error creating Pokemon' });
-      }
+        const userExists = await PokemonsModel.findAddMypokemon(id_pokemons);
+          if (userExists) {
+          return res.status(409).json({ error: 'Pokemons already exists' });
+          }
+        const pokemon = await PokemonsModel.addToMyPokemon(id_pokemons, id_user);
+        res.json({
+          message: 'Add To My Pokemons Success',
+          data: pokemon
+        });
+      } catch(error) {
+        console.error('Error creating Pokemon', error);
+        res.status(500).json({ error: 'Error creating Pokemon' });
+        }
 }
 
 const deleteMyPokemons = async (req, res) => {

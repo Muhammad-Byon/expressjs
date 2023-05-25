@@ -43,32 +43,15 @@ const getAllMyPokemon = async () => {
     return pool.execute(sqlQuery);
 }
 
-// const addToMyPokemon = async (id_pokemons, id_user) =>{
-//     const [result] = await pool.execute('INSERT INTO mypokemons (id_pokemons, id_user) VALUES (?, ?)', [id_pokemons, id_user]);
-//     const id = result.insertId;
-//     return { id, id_pokemons, id_user };
-// }
-
-const addToMyPokemon = async (id_pokemons, id_user) => {
-  // Cek apakah data sudah ada sebelumnya
-  const [existingData] = await pool.execute(
-    'SELECT id FROM mypokemons WHERE id_pokemons = ? AND id_user = ?',
-    [id_pokemons, id_user]
-  );
-
-  if (existingData.length > 0) {
-    throw new Error('Data already exists');
-  }
-
-  // Data belum ada, lanjutkan dengan penambahan data
-  const [result] = await pool.execute(
-    'INSERT INTO mypokemons (id_pokemons, id_user) VALUES (?, ?)',
-    [id_pokemons, id_user]
-  );
-  
+const addToMyPokemon = async (id_pokemons, id_user) =>{
+  const [result] = await pool.execute('INSERT INTO mypokemons (id_pokemons, id_user) VALUES (?, ?)', [id_pokemons, id_user]);
   const id = result.insertId;
   return { id, id_pokemons, id_user };
-};
+}
+const findAddMypokemon = async (id_pokemons) => {
+  const [rows] = await pool.execute('SELECT * FROM mypokemons WHERE id_pokemons = ?', [id_pokemons]);
+  return rows[0];
+}
 
 const deleteMyPokemon = async (id) =>{
     const sqlQuery = `DELETE FROM mypokemons where id = ${id}`
@@ -85,4 +68,5 @@ module.exports = {
   getAllMyPokemon,
   addToMyPokemon,
   deleteMyPokemon,
+  findAddMypokemon,
 };
