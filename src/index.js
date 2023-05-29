@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const middlewareLogRequest = require('./middleware/logs');
 
 app.use(middlewareLogRequest);
+app.use(express.static('../public/img'))
 app.use(express.json());
 app.use("/pokemons", pokemonsRoutes)
 app.use("/users", usersRoutes)
