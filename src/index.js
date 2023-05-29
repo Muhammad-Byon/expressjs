@@ -7,6 +7,12 @@ const usersRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const middlewareLogRequest = require('./middleware/logs');
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(middlewareLogRequest);
 app.use(express.static('../public/img'))
 app.use(express.json());
