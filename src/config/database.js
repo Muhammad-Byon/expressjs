@@ -10,9 +10,9 @@ const pool = mysql.createPool({
 });
 
 // mendapatkan koneksi dari pool
-pool.getConnection(function(err, connection) {
-  if (err) throw err;
-  console.log("Database Connected");
-});
+// pool.getConnection(function(err, connection) {
+//   if (err) throw err;
+//   console.log("Database Connected");
+// });
 
 module.exports = pool.promise();
